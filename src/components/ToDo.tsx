@@ -1,10 +1,10 @@
 import React from 'react';
-import {IToDO, toDoState} from "./atoms";
+import {IToDo, toDoState} from "./atoms";
 import {useSetRecoilState} from "recoil";
 
-function ToDo({text, category, id}:IToDO) {
+function ToDo({text, category, id}:IToDo) {
   const setToDos = useSetRecoilState(toDoState);
-  const onClick = (newCategory:IToDO['category']) => {
+  const onClick = (newCategory:IToDo['category']) => {
     setToDos(prev => {
       return prev.map((todo) => todo.id === id ? {...todo, category:newCategory} : todo);
     })
