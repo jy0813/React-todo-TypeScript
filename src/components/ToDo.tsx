@@ -1,13 +1,20 @@
 import React from 'react';
-import {IToDO} from "./atoms";
+import {IToDO, toDoState} from "./atoms";
+import {useSetRecoilState} from "recoil";
 
-function ToDo({text}:IToDO) {
+function ToDo({text, category, id}:IToDO) {
+  const setToDos = useSetRecoilState(toDoState);
+  const onClick = (newCategory:IToDO['category']) => {
+    setToDos(prev => {
+      return prev.map((todo) => todo.id === id ? {...todo, category:newCategory} : todo);
+    })
+  }
   return (
       <li>
         <span>{text}</span>
-        <button>To Do</button>
-        <button>Doing</button>
-        <button>Done</button>
+        {category !== 'DOING' && <button onClick={() => onClick('DOING')}>Doing</button>}
+        {category !== 'TO_DO' && <button onClick={() => onClick('TO_DO')}>To DO</button>}
+        {category !== 'DONE' && <button onClick={() => onClick('DONE')}>Done</button>}
       </li>
   );
 }
